@@ -11,8 +11,8 @@ const Home = () => {
   const { user } = useSelector((state) => state.auth.user || {});
 
   useEffect(() => {
-    // const socket = new WebSocket(`wss://noedove-backend.onrender.com`);
-    const socket = new WebSocket(`ws://localhost:8080`);
+    const socket = new WebSocket(`wss://noedove-backend.onrender.com`);
+    // const socket = new WebSocket(`ws://localhost:8080`);
 
     socket.onopen = () => {
       setWs(socket);
