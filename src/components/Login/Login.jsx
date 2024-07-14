@@ -38,6 +38,7 @@ const Login = () => {
         toast.error("Login failed. Please check your credentials.");
       }
     } catch (err) {
+      setLoading(false);
       toast.error("Login failed. Please try again later.");
     }
   };
