@@ -57,6 +57,7 @@ const Signup = () => {
       toast.success("Account create Success!");
       navigate("/login");
     } catch (err) {
+      setLoading(false);
       toast.error(err.response?.data?.message || "Something went wrong!");
     }
   };
