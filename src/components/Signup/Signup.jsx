@@ -24,6 +24,16 @@ const Signup = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    if (!validator.isLength(username, { min: 3 })) {
+      toast.error("Username should be at least 3 characters long");
+      return;
+    }
+
+    if (!validator.isEmail(email)) {
+      toast.error("Please enter a valid email address");
+      return;
+    }
+
     if (!validator.isLength(password, { min: 6 })) {
       toast.error("Password should be at least 6 characters long");
       return;
@@ -46,18 +56,18 @@ const Signup = () => {
           withCredentials: true,
         }
       );
+
       setLoading(false);
       toast.success(response.data.message);
-      setName("");
+
       setEmail("");
       setPassword("");
       setUsername("");
-      setRole("");
 
-      toast.success("Account create Success!");
       navigate("/login");
     } catch (err) {
       setLoading(false);
+      console.log(err);
       toast.error(err.response?.data?.message || "Something went wrong!");
     }
   };
