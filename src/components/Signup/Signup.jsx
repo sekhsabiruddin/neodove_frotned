@@ -8,15 +8,19 @@ import "react-toastify/dist/ReactToastify.css";
 import validator from "validator";
 import styles from "../../styles/styles";
 import { server } from "../../server";
+import Loading from "../Loading/Loading";
+
 const Signup = () => {
   const [email, setEmail] = useState("");
-  const [name, setName] = useState("");
   const [password, setPassword] = useState("");
   const [visible, setVisible] = useState(false);
   const [username, setUsername] = useState("");
-  const [role, setRole] = useState("");
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
+  if (loading) {
+    return <Loading />;
+  }
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -30,7 +34,7 @@ const Signup = () => {
       password,
       username,
     };
-
+    setLoading(true);
     try {
       const response = await axios.post(
         `${server}/user/create-user`,
@@ -42,7 +46,7 @@ const Signup = () => {
           withCredentials: true,
         }
       );
-
+      setLoading(false);
       toast.success(response.data.message);
       setName("");
       setEmail("");

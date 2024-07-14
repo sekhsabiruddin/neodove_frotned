@@ -8,25 +8,27 @@ import { Link, useNavigate } from "react-router-dom";
 import { server } from "../../server";
 import { getUser } from "../../redux/reducer/auth";
 import { useSelector } from "react-redux";
-
+import Loading from "../Loading/Loading";
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [visible, setVisible] = useState(false);
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
+  if (loading) {
+    return <Loading />;
+  }
   const handleSubmit = async (e) => {
     e.preventDefault();
-    debugger;
+    setLoading(true);
     try {
       const response = await axios.post(
         `${server}/user/login-user`,
         { email, password },
         { withCredentials: true }
       );
-
-      console.log("Login response:", response);
+      setLoading(false);
 
       if (response.data.success) {
         dispatch(getUser());
@@ -36,7 +38,6 @@ const Login = () => {
         toast.error("Login failed. Please check your credentials.");
       }
     } catch (err) {
-      console.error("Login error:", err);
       toast.error("Login failed. Please try again later.");
     }
   };
